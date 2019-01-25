@@ -1,22 +1,24 @@
-import java.util.ArrayList;
-
 /**
- * Clase abstracta para la implementacion de grafos dirigidos
- * recordar los usos de clase abstracta 
- * @see <a href="https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html"> Abstract </a>
+ * Implementacion de un grafo dirigido usando listas de adyacencia
  *
- * @author Mauricio Toro, Camilo Paez
+ * @author Mauricio Toro, Mateo Agudelo, Ricardo Saldarriaga, Benjamin de la Torre
  */
-public abstract class Digraph {
-	protected int size;
-
+import java.util.ArrayList;
+import java.util.LinkedList;
+import javafx.util.Pair;
+public class DigraphAL extends Digraph {
+	
+ LinkedList<LinkedList<Pair<Integer,Integer>>> lista; 
 	/**
 	* Constructor para el grafo dirigido
 	* @param vertices el numero de vertices que tendra el grafo dirigido
 	*
 	*/
-	public Digraph(int vertices) {
-		size = vertices;
+	public DigraphAL(int size) {
+		super(size);
+		lista = new LinkedList();
+    		for (int i = 1; i <= size; i++)
+       			lista.add(new LinkedList<Pair<Integer,Integer>>());
 	}
 
 	/**
@@ -26,7 +28,10 @@ public abstract class Digraph {
 	* @param destination hacia donde va el arco
 	* @param weight el peso de la longitud entre source y destination
 	*/
-	public abstract void addArc(int source, int destination, int weight);
+	public void addArc(int source, int destination, int weight) {
+		LinkedList<Pair<Integer,Integer>> listaSource = lista.get(source);
+		listaSource.add(new Pair(destination,weight));
+	}
 
 	/**
 	* Metodo para obtener una lista de hijos desde un nodo, es decir todos los nodos
@@ -36,7 +41,14 @@ public abstract class Digraph {
 	* Para más información de las clases:
  	* @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html"> Ver documentacion ArrayList </a>
 	*/
-	public abstract ArrayList<Integer> getSuccessors(int vertex);
+	public ArrayList<Integer> getSuccessors(int vertex) {
+		 // Una nueva lista que saque los sucesores
+     		ArrayList<Integer> respuesta = new ArrayList();
+     		LinkedList<Pair<Integer,Integer>> listaDeParejas = lista.get(vertex);
+     		for (Pair<Integer,Integer> pareja: listaDeParejas)
+       			respuesta.add(pareja.getKey()); //segunda parte de la pareja
+     		return respuesta;
+	}
 
 	/**
 	* Metodo para obtener el peso o longitud entre dos nodos
@@ -45,14 +57,16 @@ public abstract class Digraph {
 	* @param destination  donde termina el arco
 	* @return un entero con dicho peso
 	*/	
-	public abstract int getWeight(int source, int destination);
+	public int getWeight(int source, int destination) {
+	    // Un ciclo que dentro de la lista source, cuando
+	    //encuentre que sea el destino correcto, retorne el peso
+	    int weight = 0;
+	    LinkedList<Pair<Integer,Integer>> listaDeParejas = lista.get(source);
+	    for (Pair<Integer,Integer> pareja: listaDeParejas)
+	    	if (pareja.getKey()==destination)
+			weight = pareja.getValue();
+	    return weight;
 
-
-	/**
-	* Metodo que tiene la intencion de retornar el tamaño del grafo
-	* @return tamaño del grafo
-	*/
-	public int size() {
-		return size;
 	}
+
 }
