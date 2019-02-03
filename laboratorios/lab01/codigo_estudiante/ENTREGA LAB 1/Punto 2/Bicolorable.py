@@ -5,7 +5,7 @@ class Bicolorable(GraphAM):
 	
 	"""
 	Hereda de la clase GraphAM
-	:see: https://github.com/sespinosav/ST0247-033/blob/master/talleres/taller01/GraphAM.py
+	:see: https://github.com/ben61824/ST0247-Eafit/blob/master/laboratorios/lab01/codigo_estudiante/ENTREGA%20LAB%201/Punto%202/GraphAM.py
 	Esta clase es un evaluador de grafos
 	identifica si un grafo determinado
 	puede ser pintado con dos colores
